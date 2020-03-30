@@ -1,7 +1,7 @@
 {
   "version": "0.1",
   "name": "Twitch Auto Claimable",
-  "description": "",
+  "description": "Auto claim channel bonus point on Twitch",
   "manifest_version": 2,
   "icons": {
     "16": "assets/icon@16.png",
@@ -10,6 +10,10 @@
     "128": "assets/icon@128.png"
   },
   "browser_action": {},
+  "options_ui": {
+    "page": "src/options.html",
+    "open_in_tab": false
+  },
   "content_scripts": [
     {
       "matches": ["https://*.twitch.tv/*"],
@@ -18,5 +22,6 @@
   ],
   "background": {
     "scripts": ["src/background.js"]
-  }
+  },
+  "permissions": ["storage"]
 }

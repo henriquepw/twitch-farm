@@ -1,7 +1,5 @@
 function claimPoints() {
-  const [button] = document.getElementsByClassName(
-    "claimable-bonus__icon tw-flex"
-  );
+  const [button] = document.getElementsByClassName("claimable-bonus__icon");
 
   if (button) {
     button.click();

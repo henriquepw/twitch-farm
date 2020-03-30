@@ -10,8 +10,12 @@ function sendClaimMassage() {
   });
 }
 
-// 50000 = 5min
-setInterval(sendClaimMassage, 50000);
+chrome.storage.sync.get(["time"], data => {
+  const interval = typeof data.time === "number" ? data.time : 10;
+
+  // 1000 = 1s
+  setInterval(sendClaimMassage, interval * 1000);
+});
 
 chrome.browserAction.onClicked.addListener(tab => {
   if (activeTabs.includes(tab.id)) {
