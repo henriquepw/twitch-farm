@@ -1,24 +1,25 @@
 let activeTabs = [];
 
 function sendClaimMassage() {
-  console.log('send');
+  console.log("send");
 
   activeTabs.forEach(tab => {
     chrome.tabs.sendMessage(tab, {
-      message: 'claim',
+      message: "claim"
     });
   });
 }
 
-setInterval(sendClaimMassage, 5000);
+// 50000 = 5min
+setInterval(sendClaimMassage, 50000);
 
-chrome.browserAction.onClicked.addListener(tab => {  
+chrome.browserAction.onClicked.addListener(tab => {
   if (activeTabs.includes(tab.id)) {
     activeTabs = activeTabs.filter(tabId => tabId !== tab.id);
-    console.log(activeTabs);
-    return;
+  } else {
+    activeTabs.push(tab.id);
   }
-  
-  activeTabs.push(tab.id);
+
   console.log(activeTabs);
+  chrome.browserAction.setBadgeText({ text: String(activeTabs.length) });
 });
