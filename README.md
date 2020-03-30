@@ -14,7 +14,7 @@ Twitch Farm is a chrome extension for auto claim channel point on Twitch
   
 Using git
   ```sh
-    git clone https://github.com/henry-ns/coronavirus-detector.git
+    git clone https://github.com/henry-ns/twitch-farm.git
   ```
 or download the zip file and extract then
 
