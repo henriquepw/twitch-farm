@@ -3,8 +3,13 @@
   "name": "Twitch Auto Claimable",
   "description": "",
   "manifest_version": 2,
-  "browser_action": {
+  "icons": {
+    "16": "assets/icon@16.png",
+    "32": "assets/icon@32.png",
+    "48": "assets/icon@48.png",
+    "128": "assets/icon@128.png"
   },
+  "browser_action": {},
   "content_scripts": [
     {
       "matches": ["https://*.twitch.tv/*"],
