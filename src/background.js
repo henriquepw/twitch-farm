@@ -1,4 +1,5 @@
 let activeTabs = [];
+let interval = undefined;
 
 function sendClaimMassage() {
   console.log("send");
@@ -10,11 +11,26 @@ function sendClaimMassage() {
   });
 }
 
-chrome.storage.sync.get(["time"], data => {
-  const interval = typeof data.time === "number" ? data.time : 10;
+function setBadge(count) {
+  const text = count === 0 ? "" : count > 9 ? "9+" : String(count);
 
-  // 1000 = 1s
-  setInterval(sendClaimMassage, interval * 1000);
+  chrome.browserAction.setBadgeText({ text });
+}
+
+function newInterval(time) {
+  interval && clearInterval(interval);
+
+  const seconds = typeof time === "string" ? +time : 10;
+
+  interval = setInterval(sendClaimMassage, seconds * 1000);
+}
+
+chrome.storage.sync.get(["time"], data => {
+  newInterval(data.time);
+});
+
+chrome.storage.onChanged.addListener(data => {
+  newInterval(data.time.newValue);
 });
 
 chrome.browserAction.onClicked.addListener(tab => {
@@ -25,5 +41,11 @@ chrome.browserAction.onClicked.addListener(tab => {
   }
 
   console.log(activeTabs);
-  chrome.browserAction.setBadgeText({ text: String(activeTabs.length) });
+  setBadge(activeTabs.length);
+});
+
+chrome.tabs.onRemoved.addListener(tabId => {
+  activeTabs = activeTabs.filter(tab => tab !== tabId);
+
+  setBadge(activeTabs.length);
 });

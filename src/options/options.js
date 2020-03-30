@@ -5,7 +5,8 @@ const resetBtn = document.getElementById("reset-btn");
 
 chrome.storage.sync.get(["time"], data => {
   console.log(data);
-  time.value = typeof data.time === "number" ? data.time : 10;
+  console.log(typeof data.time);
+  time.value = typeof data.time === "string" ? +data.time : 10;
 });
 
 saveBtn.addEventListener("click", () =>
