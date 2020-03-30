@@ -1,10 +1,24 @@
-const activeTabs = [];
+let activeTabs = [];
 
-chrome.browserAction.onClicked.addListener(tab => {
-  console.log(tab);
-  activeTabs.push(tab.id);
+function sendClaimMassage() {
+  console.log('send');
 
-  chrome.tabs.sendMessage(tab.id, {
-    message: 'claim',
+  activeTabs.forEach(tab => {
+    chrome.tabs.sendMessage(tab, {
+      message: 'claim',
+    });
   });
+}
+
+setInterval(sendClaimMassage, 5000);
+
+chrome.browserAction.onClicked.addListener(tab => {  
+  if (activeTabs.includes(tab.id)) {
+    activeTabs = activeTabs.filter(tabId => tabId !== tab.id);
+    console.log(activeTabs);
+    return;
+  }
+  
+  activeTabs.push(tab.id);
+  console.log(activeTabs);
 });

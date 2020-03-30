@@ -5,8 +5,6 @@ function claimPoints() {
   if(button) button.click();
 }
 
-//setInterval(claimPoints, 5000); // 50000 = 5min
-
 chrome.runtime.onMessage.addListener(req => {
-  if(req.message === 'claim') setInterval(claimPoints, 5000);
+  if(req.message === 'claim') claimPoints();
 });
