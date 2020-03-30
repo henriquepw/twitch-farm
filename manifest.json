@@ -1,0 +1,17 @@
+{
+  "version": "0.1",
+  "name": "Twitch Auto Claimable",
+  "description": "",
+  "manifest_version": 2,
+  "browser_action": {
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.twitch.tv/*"],
+      "js": ["src/content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["src/background.js"]
+  }
+}
