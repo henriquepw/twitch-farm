@@ -25,14 +25,22 @@ function newInterval(time) {
   interval = setInterval(sendClaimMassage, seconds * 1000);
 }
 
-chrome.storage.sync.get(["time"], data => {
-  newInterval(data.time);
-});
+/**
+ * init interval
+ */
+chrome.storage.sync.get(["time"], data => newInterval(data.time));
 
-chrome.storage.onChanged.addListener(data => {
-  newInterval(data.time.newValue);
-});
+/**
+ * Update the interval when storage changes
+ */
+chrome.storage.onChanged.addListener(data => newInterval(data.time.newValue));
 
+/**
+ * When the user clicking on the extension button,
+ * if the tab is included on the list, remove then,
+ * if not, add the tab on the active list
+ * and update the badge with the list length
+ */
 chrome.browserAction.onClicked.addListener(tab => {
   if (activeTabs.includes(tab.id)) {
     activeTabs = activeTabs.filter(tabId => tabId !== tab.id);
@@ -44,6 +52,9 @@ chrome.browserAction.onClicked.addListener(tab => {
   setBadge(activeTabs.length);
 });
 
+/**
+ * If some active tab has closed, remove then from list and update badge
+ */
 chrome.tabs.onRemoved.addListener(tabId => {
   activeTabs = activeTabs.filter(tab => tab !== tabId);
 
